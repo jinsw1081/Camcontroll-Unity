@@ -13,6 +13,7 @@ public class ScrollView : MonoBehaviour
     List<ContentInfo> contentInfos=new List<ContentInfo>();
     bool OnActive = false;
     Transform Content;
+
     void Start()
     {
         Content = scrollView.transform.GetChild(0).GetChild(0);
@@ -27,7 +28,6 @@ public class ScrollView : MonoBehaviour
             instancBut.transform.localScale = Vector3.one;
             vector3.y -= 40*i;
             instancBut.transform.localPosition = vector3;
-            
         }
         for (int i = 1; i < Content.childCount; i++)
         {
@@ -63,6 +63,7 @@ public class ScrollView : MonoBehaviour
     {
         Dictionary<string, string> keyValues = new Dictionary<string, string>();
         GetContentListRequest getContentListRequest = new GetContentListRequest { Prefix = "" };
+        
         PlayFabAdminAPI.GetContentList(getContentListRequest, result =>
         {
             contentInfos = result.Contents;

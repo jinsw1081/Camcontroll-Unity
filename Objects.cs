@@ -1,20 +1,27 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class Objects : MonoBehaviour
 {
+    //화면에서 물체를 클릭하면 움직이는 방법
     private Vector3 mOffset;
     private float mZCoord;
-    public float explosionRadius = 5.0f;
-   
+    GameObject Gizmos;
+
+    private void Start()
+    {
+        Gizmos = GameObject.Find("translate_gizmo");
+    }
     void OnMouseDown()
     {
-        
-        mZCoord = Camera.main.WorldToScreenPoint(
-          gameObject.transform.position).z;
-
-        // Store offset = gameobject world pos - mouse world pos
-        mOffset = gameObject.transform.position - GetMouseAsWorldPointZ();
+        if (CameraControls.gizmoMoveOn)
+        {
+            mZCoord = Camera.main.WorldToScreenPoint(
+              gameObject.transform.position).z;
+            // Store offset = gameobject world pos - mouse world pos
+            mOffset = gameObject.transform.position - GetMouseAsWorldPointZ();
+        }
     }
 
     private Vector3 GetMouseAsWorldPointZ()
@@ -28,11 +35,13 @@ public class Objects : MonoBehaviour
     }
     void OnMouseDrag()
     {
-        transform.position = GetMouseAsWorldPointZ() + mOffset;
-
+        if (CameraControls.gizmoMoveOn)
+        {
+            transform.position = GetMouseAsWorldPointZ() + mOffset;
+            Gizmos.transform.position = transform.position;
+        }
     }
-    //마우스 좌표는 카메라 좌표를 반환하고
-    //마우스좌표를 월드스페이스로 바꾼다음에 클릭한다음 처음의 위치와 차이를 빼서 뺀만큼을
-    //차이를 오브젝트 위치에서 빼주면은 됨
-    //그러면 y축은 xy로만 
+    
+   
 }
+    

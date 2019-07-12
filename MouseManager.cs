@@ -1,18 +1,27 @@
 ﻿using UnityEngine;
 
 public class MouseManager : MonoBehaviour {
-    public static int MouseMod=2;  //0:: z  1::y 2::x
-	public GameObject selectedObject;
+    //마우스관련 셀렉션 박스 
+ 	public static GameObject selectedObject;
+    public static GameObject notChangedObject;
+    CameraControls camCon;
     Ray ray;
     RaycastHit hitInfo;
     int Mask;
+
+    private void Start()
+    {
+        camCon = Camera.main.GetComponent<CameraControls>();
+    }
 
     void LateUpdate() {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Mask = 1 << 9;
         if (Physics.Raycast(ray, out hitInfo, 100, Mask)) {
-
+            
             GameObject hitObject = hitInfo.collider.gameObject;
+            if(hitInfo.collider.tag!="others"&&Input.GetMouseButtonDown(0))
+            notChangedObject= hitInfo.collider.gameObject;
             SelectObject(hitObject);
         }
        
